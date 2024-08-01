@@ -14,9 +14,9 @@ type Config struct {
 }
 
 type Server struct {
-	Account   string `toml:"account"`
-	Server    string `toml:"server_name"`
-	SecretKey string `toml:"api_secret_key"`
+	Account    string `toml:"account"`
+	ServerName string `toml:"server_name"`
+	SecretKey  string `toml:"api_secret_key"`
 }
 
 func main() {
@@ -34,10 +34,10 @@ func main() {
 	fmt.Printf("%v\n", config)
 }
 
-func getEndpoint(server string) (string, error) {
-	if strings.HasSuffix(server, ".xrea.com") {
+func getEndpoint(serverName string) (string, error) {
+	if strings.HasSuffix(serverName, ".xrea.com") {
 		return "api.xrea.com", nil
 	}
 
-	return "", fmt.Errorf("invalid server_name: %s", server)
+	return "", fmt.Errorf("invalid server_name: %s", serverName)
 }
