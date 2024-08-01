@@ -40,7 +40,7 @@ func main() {
 	}
 }
 
-func getEndpoint(s string) (string, error) {
+func getApiServer(s string) (string, error) {
 	if strings.HasSuffix(s, ".xrea.com") {
 		return "api.xrea.com", nil
 	}
@@ -48,13 +48,25 @@ func getEndpoint(s string) (string, error) {
 	return "", fmt.Errorf("invalid server_name: %s", s)
 }
 
+func getEndpoint(s string) (string, error) {
+	domain, err := getApiServer(s)
+	if err != nil {
+		return "", err
+	}
+	u, err := url.Parse(fmt.Sprintf("https://%s", domain))
+	if err != nil {
+		return "", err
+	}
+	u.Path = "/v1/tool/ssh_ip_allow"
+
+	return u.String(), nil
+}
+
 func request(s Server, addr string) error {
-	e, err := getEndpoint(s.ServerName)
+	u, err := getEndpoint(s.ServerName)
 	if err != nil {
 		return err
 	}
-	u, _ := url.Parse("https://example.com/v1/tool/ssh_ip_allow")
-	u.Host = e
 
 	v := url.Values{}
 	v.Set("account", s.Account)
