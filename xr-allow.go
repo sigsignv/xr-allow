@@ -1,9 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 	"strings"
 
@@ -15,9 +15,9 @@ type Config struct {
 }
 
 type Server struct {
-	Account    string `toml:"account" json:"account"`
-	ServerName string `toml:"server_name" json:"server_name"`
-	SecretKey  string `toml:"api_secret_key" json:"api_secret_key"`
+	Account    string `toml:"account"`
+	ServerName string `toml:"server_name"`
+	SecretKey  string `toml:"api_secret_key"`
 }
 
 func main() {
@@ -49,18 +49,21 @@ func getEndpoint(s string) (string, error) {
 }
 
 func request(s Server, addr string) error {
-	endpoint, err := getEndpoint(s.ServerName)
+	e, err := getEndpoint(s.ServerName)
 	if err != nil {
 		return err
 	}
+	u, _ := url.Parse("https://example.com/v1/tool/ssh_ip_allow")
+	u.Host = e
 
-	json, err := json.Marshal(s)
-	if err != nil {
-		return err
-	}
+	v := url.Values{}
+	v.Set("account", s.Account)
+	v.Set("server_name", s.ServerName)
+	v.Set("api_secret_key", s.SecretKey)
+	v.Set("param[addr]", addr)
 
-	fmt.Printf("Endpoint: %s\n", endpoint)
-	fmt.Println(string(json))
+	fmt.Printf("Endpoint: %s\n", u)
+	fmt.Printf("%v\n", v)
 
 	return nil
 }
