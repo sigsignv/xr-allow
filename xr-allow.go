@@ -53,10 +53,9 @@ func getEndpoint(s string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	u, err := url.Parse(fmt.Sprintf("https://%s", domain))
-	if err != nil {
-		return "", err
-	}
+	u := &url.URL{}
+	u.Scheme = "https"
+	u.Host = domain
 	u.Path = "/v1/tool/ssh_ip_allow"
 
 	return u.String(), nil
@@ -75,7 +74,7 @@ func request(s Server, addr string) error {
 	v.Set("param[addr]", addr)
 
 	fmt.Printf("Endpoint: %s\n", u)
-	fmt.Printf("%v\n", v)
+	fmt.Printf("%v\n", v.Encode())
 
 	return nil
 }
