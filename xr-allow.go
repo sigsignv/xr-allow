@@ -9,6 +9,13 @@ import (
 )
 
 type Config struct {
+	Servers []Server
+}
+
+type Server struct {
+	Account   string `toml:"account"`
+	Server    string `toml:"server_name"`
+	SecretKey string `toml:"api_secret_key"`
 }
 
 func main() {
@@ -23,5 +30,5 @@ func main() {
 		log.Fatal("Failed: toml.Unmarshal()")
 	}
 
-	fmt.Println("Success")
+	fmt.Printf("%v\n", config)
 }
