@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/pelletier/go-toml/v2"
 )
@@ -31,4 +32,12 @@ func main() {
 	}
 
 	fmt.Printf("%v\n", config)
+}
+
+func getEndpoint(server string) (string, error) {
+	if strings.HasSuffix(server, ".xrea.com") {
+		return "api.xrea.com", nil
+	}
+
+	return "", fmt.Errorf("invalid server_name: %s", server)
 }
