@@ -1,11 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/pelletier/go-toml/v2"
 )
@@ -18,6 +22,11 @@ type Server struct {
 	Account    string `toml:"account"`
 	ServerName string `toml:"server_name"`
 	SecretKey  string `toml:"api_secret_key"`
+}
+
+type Result struct {
+	StatusCode int    `json:"status_code"`
+	Message    string `json:"message"`
 }
 
 func main() {
@@ -37,6 +46,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		fmt.Printf("%s@%s: success\n", s.Account, s.ServerName)
+		time.Sleep(1000 * time.Millisecond)
 	}
 }
 
@@ -61,6 +72,21 @@ func getEndpoint(s string) (string, error) {
 	return u.String(), nil
 }
 
+func parseResult(r io.Reader) (*Result, error) {
+	b, err := io.ReadAll(r)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp Result
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
 func request(s Server, addr string) error {
 	u, err := getEndpoint(s.ServerName)
 	if err != nil {
@@ -73,8 +99,24 @@ func request(s Server, addr string) error {
 	v.Set("api_secret_key", s.SecretKey)
 	v.Set("param[addr]", addr)
 
-	fmt.Printf("Endpoint: %s\n", u)
-	fmt.Printf("%v\n", v.Encode())
+	resp, err := http.PostForm(u, v)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("request is failed: %s", resp.Status)
+	}
+
+	result, err := parseResult(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	if result.StatusCode != 200 {
+		return fmt.Errorf("result is failed: %s", result.Message)
+	}
 
 	return nil
 }
