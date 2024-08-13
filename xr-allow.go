@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/netip"
 	"net/url"
 	"os"
 	"strings"
@@ -36,7 +37,11 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Parse()
-	addr := flag.Arg(0)
+
+	addr, err := netip.ParseAddr(flag.Arg(0))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	doc, err := os.ReadFile("./conf.toml")
 	if err != nil {
@@ -50,7 +55,7 @@ func main() {
 	}
 
 	for _, s := range config.Servers {
-		err := request(s, addr)
+		err := request(s, addr.String())
 		if err != nil {
 			log.Fatal(err)
 		}
