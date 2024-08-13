@@ -43,6 +43,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	if !addr.Is4() {
+		log.Fatalf("IPv4 address required: %s", addr.String())
+	}
+
 	doc, err := os.ReadFile("./conf.toml")
 	if err != nil {
 		log.Fatal("Failed: os.ReadFile()")
