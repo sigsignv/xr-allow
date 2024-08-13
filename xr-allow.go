@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -30,6 +31,13 @@ type Result struct {
 }
 
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: xr-allow [options...] 192.0.2.0\n")
+		flag.PrintDefaults()
+	}
+	flag.Parse()
+	addr := flag.Arg(0)
+
 	doc, err := os.ReadFile("./conf.toml")
 	if err != nil {
 		log.Fatal("Failed: os.ReadFile()")
@@ -42,7 +50,7 @@ func main() {
 	}
 
 	for _, s := range config.Servers {
-		err := request(s, "192.168.1.1")
+		err := request(s, addr)
 		if err != nil {
 			log.Fatal(err)
 		}
