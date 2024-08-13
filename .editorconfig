@@ -12,3 +12,7 @@ trim_trailing_whitespace = false
 [*.go]
 indent_style = tab
 indent_size = 4
+
+[devcontainer.json]
+indent_style = tab
+indent_size = 4
