@@ -10,7 +10,6 @@ import (
 	"net/netip"
 	"net/url"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -48,14 +47,6 @@ func main() {
 		fmt.Printf("%s@%s: success\n", s.Account, s.ServerName)
 		time.Sleep(1000 * time.Millisecond)
 	}
-}
-
-func getApiServer(s string) (string, error) {
-	if strings.HasSuffix(s, ".xrea.com") {
-		return "api.xrea.com", nil
-	}
-
-	return "", fmt.Errorf("invalid server_name: %s", s)
 }
 
 func getEndpoint(s string) (string, error) {
