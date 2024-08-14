@@ -45,7 +45,7 @@ func main() {
 			log.Println(err)
 			continue
 		}
-		v := getParams(s, addr.String())
+		v := getParams(s, addr)
 		err = request(u, v)
 		if err != nil {
 			log.Fatal(err)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/netip"
 	"net/url"
 	"strings"
 )
@@ -20,12 +21,12 @@ func getAPIEndpoint(s string) (string, error) {
 	return u.String(), nil
 }
 
-func getParams(s Server, addr string) url.Values {
+func getParams(s Server, ip netip.Addr) url.Values {
 	v := url.Values{}
 	v.Set("account", s.Account)
 	v.Set("server_name", s.ServerName)
 	v.Set("api_secret_key", s.SecretKey)
-	v.Set("param[addr]", addr)
+	v.Set("param[addr]", ip.String())
 
 	return v
 }
