@@ -30,7 +30,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, s := range config.Servers {
+	for i, s := range config.Servers {
+		// 1 req/sec
+		if i != 0 {
+			time.Sleep(1000 * time.Millisecond)
+		}
+
 		u, err := getAPIEndpoint(s.ServerName)
 		if err != nil {
 			log.Println(err)
@@ -42,6 +47,5 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Printf("%s@%s: success\n", s.Account, s.ServerName)
-		time.Sleep(1000 * time.Millisecond)
 	}
 }
