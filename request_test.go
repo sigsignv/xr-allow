@@ -28,3 +28,14 @@ func TestGetAPIEndpoint(t *testing.T) {
 		t.Errorf("invalid API Endpoint: %s\n", u)
 	}
 }
+
+func TestParseResult(t *testing.T) {
+	json := "{\"status_code\":200}"
+	result, err := parseResult([]byte(json))
+	if err != nil {
+		t.Error(err)
+	}
+	if result.StatusCode != 200 {
+		t.Errorf("invalid status code: %d\n", result.StatusCode)
+	}
+}

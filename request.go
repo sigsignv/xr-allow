@@ -38,14 +38,14 @@ func getParams(s Server, ip netip.Addr) url.Values {
 }
 
 func parseResult(b []byte) (*Result, error) {
-	var resp Result
+	var result Result
 
-	err := json.Unmarshal(b, &resp)
+	err := json.Unmarshal(b, &result)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, nil
+	return &result, nil
 }
 
 func resolveAPIEndpoint(s string) (string, error) {
