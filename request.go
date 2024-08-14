@@ -56,8 +56,9 @@ func request(url string, data url.Values) error {
 	}
 	defer resp.Body.Close()
 
+	// XREA API always returns 200
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("request is failed: %s", resp.Status)
+		return fmt.Errorf("server is probably unavailable: %s", resp.Status)
 	}
 
 	b, err := io.ReadAll(resp.Body)
@@ -65,13 +66,13 @@ func request(url string, data url.Values) error {
 		return err
 	}
 
-	result, err := parseResult(b)
+	r, err := parseResult(b)
 	if err != nil {
 		return err
 	}
 
-	if result.StatusCode != 200 {
-		return fmt.Errorf("result is failed: %d", result.StatusCode)
+	if r.StatusCode != 200 {
+		return fmt.Errorf("API request failed: %s", string(b))
 	}
 
 	return nil
