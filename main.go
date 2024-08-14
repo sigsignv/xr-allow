@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/netip"
+	"net/url"
 	"os"
 	"time"
 )
@@ -39,7 +40,13 @@ func main() {
 	}
 
 	for _, s := range config.Servers {
-		err := request(s, addr.String())
+		u, err := getAPIEndpoint(s.ServerName)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		v := getParams(s, addr.String())
+		err = request(u, v)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -63,15 +70,8 @@ func parseResult(r io.Reader) (*Result, error) {
 	return &resp, nil
 }
 
-func request(s Server, addr string) error {
-	u, err := getAPIEndpoint(s.ServerName)
-	if err != nil {
-		return err
-	}
-
-	v := getParams(s, addr)
-
-	resp, err := http.PostForm(u, v)
+func request(url string, data url.Values) error {
+	resp, err := http.PostForm(url, data)
 	if err != nil {
 		return err
 	}
