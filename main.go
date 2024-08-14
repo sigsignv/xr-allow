@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"net/netip"
-	"net/url"
 	"os"
 	"time"
 )
@@ -70,11 +69,7 @@ func request(s Server, addr string) error {
 		return err
 	}
 
-	v := url.Values{}
-	v.Set("account", s.Account)
-	v.Set("server_name", s.ServerName)
-	v.Set("api_secret_key", s.SecretKey)
-	v.Set("param[addr]", addr)
+	v := getParams(s, addr)
 
 	resp, err := http.PostForm(u, v)
 	if err != nil {

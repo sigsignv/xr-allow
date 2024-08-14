@@ -20,6 +20,16 @@ func getAPIEndpoint(s string) (string, error) {
 	return u.String(), nil
 }
 
+func getParams(s Server, addr string) url.Values {
+	v := url.Values{}
+	v.Set("account", s.Account)
+	v.Set("server_name", s.ServerName)
+	v.Set("api_secret_key", s.SecretKey)
+	v.Set("param[addr]", addr)
+
+	return v
+}
+
 func resolveAPIEndpoint(s string) (string, error) {
 	if strings.HasSuffix(s, ".xrea.com") {
 		return "api.xrea.com", nil
