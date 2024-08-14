@@ -65,7 +65,7 @@ func parseResult(r io.Reader) (*Result, error) {
 }
 
 func request(s Server, addr string) error {
-	u, err := getEndpoint(s.ServerName)
+	u, err := getAPIEndpoint(s.ServerName)
 	if err != nil {
 		return err
 	}

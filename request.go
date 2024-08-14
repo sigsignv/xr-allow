@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func getEndpoint(s string) (string, error) {
+func getAPIEndpoint(s string) (string, error) {
 	domain, err := resolveAPIEndpoint(s)
 	if err != nil {
 		return "", err
