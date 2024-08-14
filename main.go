@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -12,11 +11,6 @@ import (
 	"os"
 	"time"
 )
-
-type Result struct {
-	StatusCode int    `json:"status_code"`
-	Message    string `json:"message"`
-}
 
 func main() {
 	flag.Usage = func() {
@@ -53,17 +47,6 @@ func main() {
 		fmt.Printf("%s@%s: success\n", s.Account, s.ServerName)
 		time.Sleep(1000 * time.Millisecond)
 	}
-}
-
-func parseResult(b []byte) (*Result, error) {
-	var resp Result
-
-	err := json.Unmarshal(b, &resp)
-	if err != nil {
-		return nil, err
-	}
-
-	return &resp, nil
 }
 
 func request(url string, data url.Values) error {

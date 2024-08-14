@@ -1,11 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/netip"
 	"net/url"
 	"strings"
 )
+
+type Result struct {
+	StatusCode int    `json:"status_code"`
+	Message    string `json:"message"`
+}
 
 func getAPIEndpoint(s string) (string, error) {
 	host, err := resolveAPIEndpoint(s)
@@ -29,6 +35,17 @@ func getParams(s Server, ip netip.Addr) url.Values {
 	v.Set("param[addr]", ip.String())
 
 	return v
+}
+
+func parseResult(b []byte) (*Result, error) {
+	var resp Result
+
+	err := json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }
 
 func resolveAPIEndpoint(s string) (string, error) {
