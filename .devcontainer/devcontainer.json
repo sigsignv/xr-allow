@@ -16,7 +16,8 @@
 			"extensions": [
 				"EditorConfig.EditorConfig",
 				"ms-azuretools.vscode-docker",
-				"golang.go"
+				"golang.go",
+				"tamasfe.even-better-toml"
 			]
 		}
 	}

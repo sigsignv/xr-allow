@@ -11,7 +11,7 @@ $ go install github.com/sigsignv/xr-allow
 ## Example
 
 ```toml
-[[Server]]
+[[servers]]
 account = "USERNAME"
 server_name = "SERVERNAME.xrea.com"
 api_secret_key = "YOUR_API_KEY"

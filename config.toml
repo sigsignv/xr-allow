@@ -1,0 +1,6 @@
+# Example for xr-allow (github.com/sigsignv/xr-allow)
+
+# [[servers]]
+# account = "USERNAME"
+# server_name = "SERVERNAME.xrea.com"
+# api_secret_key = "YOUR_API_KEY"
