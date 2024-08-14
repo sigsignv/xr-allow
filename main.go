@@ -38,14 +38,15 @@ func main() {
 
 		u, err := getAPIEndpoint(s.ServerName)
 		if err != nil {
-			log.Println(err)
+			log.Printf("[%s@%s] %s\n", s.Account, s.ServerName, err)
 			continue
 		}
-		v := getParams(s, addr)
-		err = request(u, v)
-		if err != nil {
-			log.Fatal(err)
+
+		if err := request(u, getParams(s, addr)); err != nil {
+			log.Printf("[%s@%s] %s\n", s.Account, s.ServerName, err)
+			continue
 		}
+
 		fmt.Printf("%s@%s: success\n", s.Account, s.ServerName)
 	}
 }
