@@ -9,8 +9,7 @@ import (
 )
 
 type Result struct {
-	StatusCode int    `json:"status_code"`
-	Message    string `json:"message"`
+	StatusCode int `json:"status_code"`
 }
 
 func getAPIEndpoint(s string) (string, error) {

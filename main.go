@@ -71,7 +71,7 @@ func request(url string, data url.Values) error {
 	}
 
 	if result.StatusCode != 200 {
-		return fmt.Errorf("result is failed: %s", result.Message)
+		return fmt.Errorf("result is failed: %d", result.StatusCode)
 	}
 
 	return nil
