@@ -3,11 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"net/netip"
-	"net/url"
 	"os"
 	"time"
 )
@@ -47,32 +44,4 @@ func main() {
 		fmt.Printf("%s@%s: success\n", s.Account, s.ServerName)
 		time.Sleep(1000 * time.Millisecond)
 	}
-}
-
-func request(url string, data url.Values) error {
-	resp, err := http.PostForm(url, data)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return fmt.Errorf("request is failed: %s", resp.Status)
-	}
-
-	b, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-
-	result, err := parseResult(b)
-	if err != nil {
-		return err
-	}
-
-	if result.StatusCode != 200 {
-		return fmt.Errorf("result is failed: %d", result.StatusCode)
-	}
-
-	return nil
 }

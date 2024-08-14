@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"net/netip"
 	"net/url"
 	"strings"
@@ -45,6 +47,34 @@ func parseResult(b []byte) (*Result, error) {
 	}
 
 	return &result, nil
+}
+
+func request(url string, data url.Values) error {
+	resp, err := http.PostForm(url, data)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("request is failed: %s", resp.Status)
+	}
+
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	result, err := parseResult(b)
+	if err != nil {
+		return err
+	}
+
+	if result.StatusCode != 200 {
+		return fmt.Errorf("result is failed: %d", result.StatusCode)
+	}
+
+	return nil
 }
 
 func resolveAPIEndpoint(s string) (string, error) {
