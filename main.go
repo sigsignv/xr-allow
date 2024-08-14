@@ -35,14 +35,9 @@ func main() {
 		log.Fatalf("IPv4 address required: %s", addr.String())
 	}
 
-	doc, err := os.ReadFile("./conf.toml")
+	config, err := loadConfig("./conf.toml")
 	if err != nil {
-		log.Fatal("Failed: os.ReadFile()")
-	}
-
-	config, err := parseConfig(doc)
-	if err != nil {
-		log.Fatal("Failed: toml.Unmarshal()")
+		log.Fatal(err)
 	}
 
 	for _, s := range config.Servers {
