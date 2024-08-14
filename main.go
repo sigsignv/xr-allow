@@ -49,19 +49,6 @@ func main() {
 	}
 }
 
-func getEndpoint(s string) (string, error) {
-	domain, err := resolveAPIEndpoint(s)
-	if err != nil {
-		return "", err
-	}
-	u := &url.URL{}
-	u.Scheme = "https"
-	u.Host = domain
-	u.Path = "/v1/tool/ssh_ip_allow"
-
-	return u.String(), nil
-}
-
 func parseResult(r io.Reader) (*Result, error) {
 	b, err := io.ReadAll(r)
 	if err != nil {
