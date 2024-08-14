@@ -50,7 +50,7 @@ func main() {
 }
 
 func getEndpoint(s string) (string, error) {
-	domain, err := getApiServer(s)
+	domain, err := resolveAPIEndpoint(s)
 	if err != nil {
 		return "", err
 	}
