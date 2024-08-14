@@ -4,3 +4,7 @@ xr-allow: *.go
 .PHONY: clean
 clean:
 	$(RM) xr-allow
+
+.PHONY: test
+test:
+	go test
