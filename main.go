@@ -55,14 +55,10 @@ func main() {
 	}
 }
 
-func parseResult(r io.Reader) (*Result, error) {
-	b, err := io.ReadAll(r)
-	if err != nil {
-		return nil, err
-	}
-
+func parseResult(b []byte) (*Result, error) {
 	var resp Result
-	err = json.Unmarshal(b, &resp)
+
+	err := json.Unmarshal(b, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +77,12 @@ func request(url string, data url.Values) error {
 		return fmt.Errorf("request is failed: %s", resp.Status)
 	}
 
-	result, err := parseResult(resp.Body)
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	result, err := parseResult(b)
 	if err != nil {
 		return err
 	}
