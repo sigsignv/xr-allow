@@ -7,14 +7,14 @@ import (
 )
 
 func getAPIEndpoint(s string) (string, error) {
-	domain, err := resolveAPIEndpoint(s)
+	host, err := resolveAPIEndpoint(s)
 	if err != nil {
 		return "", err
 	}
 
 	u := &url.URL{}
 	u.Scheme = "https"
-	u.Host = domain
+	u.Host = host
 	u.Path = "/v1/tool/ssh_ip_allow"
 
 	return u.String(), nil
