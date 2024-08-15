@@ -21,6 +21,7 @@ func main() {
 	}
 	config := flag.StringP("config", "c", "./config.toml", "Specify config file path")
 	help := flag.BoolP("help", "h", false, "Show help")
+	quiet := flag.BoolP("quiet", "q", false, "Suppress output")
 	version := flag.BoolP("version", "v", false, "Show version")
 	flag.Parse()
 
@@ -67,6 +68,10 @@ func main() {
 
 		if err := request(u, getParams(s, ip)); err != nil {
 			log.Printf("[%s@%s] %s\n", s.Account, s.ServerName, err)
+			continue
+		}
+
+		if *quiet {
 			continue
 		}
 
