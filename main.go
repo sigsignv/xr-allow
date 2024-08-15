@@ -1,12 +1,13 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"net/netip"
 	"os"
 	"time"
+
+	flag "github.com/spf13/pflag"
 )
 
 func main() {
