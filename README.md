@@ -8,7 +8,17 @@ A CLI utility for allowing SSH connection IPs using the XREA API.
 $ go install github.com/sigsignv/xr-allow
 ```
 
-## Example
+## Usage
+
+```
+Usage: xr-allow [options...] 192.0.2.0
+  -c, --config string   Specify config file path (default "./config.toml")
+  -h, --help            Show help
+  -q, --quiet           Suppress output
+  -v, --version         Show version
+```
+
+## Configuration
 
 ```toml
 [[servers]]
