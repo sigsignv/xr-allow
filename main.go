@@ -20,7 +20,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 	help := flag.BoolP("help", "h", false, "Show help")
-	version := flag.BoolP("version", "V", false, "Show version")
+	version := flag.BoolP("version", "v", false, "Show version")
 	flag.Parse()
 
 	if *help {
