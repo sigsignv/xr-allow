@@ -19,8 +19,14 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Usage: xr-allow [options...] 192.0.2.0\n")
 		flag.PrintDefaults()
 	}
+	help := flag.BoolP("help", "h", false, "Show help")
 	version := flag.BoolP("version", "V", false, "Show version")
 	flag.Parse()
+
+	if *help {
+		flag.Usage()
+		os.Exit(0)
+	}
 
 	if *version {
 		fmt.Println(VERSION)
