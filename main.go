@@ -33,6 +33,11 @@ func main() {
 		os.Exit(0)
 	}
 
+	if flag.NArg() == 0 {
+		flag.Usage()
+		os.Exit(1)
+	}
+
 	addr, err := netip.ParseAddr(flag.Arg(0))
 	if err != nil {
 		log.Fatal(err)
