@@ -5,7 +5,7 @@ A CLI utility for allowing SSH connection IPs using the XREA API.
 ## Install
 
 ```sh
-$ go install github.com/sigsignv/xr-allow
+$ go install github.com/sigsignv/xr-allow@latest
 ```
 
 ## Usage
