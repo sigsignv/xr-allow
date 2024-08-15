@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	VERSION = "0.2.0-dev"
+	VERSION = "0.2.0"
 )
 
 func main() {
