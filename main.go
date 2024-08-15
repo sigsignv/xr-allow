@@ -38,13 +38,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	addr, err := netip.ParseAddr(flag.Arg(0))
+	addr := flag.Arg(0)
+	ip, err := netip.ParseAddr(addr)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("invalid IP address: %s", addr)
 	}
-
-	if !addr.Is4() {
-		log.Fatalf("IPv4 address required: %s", addr.String())
+	if !ip.Is4() {
+		log.Fatalf("IPv4 address required: %s", ip.String())
 	}
 
 	config, err := loadConfig("./conf.toml")
@@ -64,7 +64,7 @@ func main() {
 			continue
 		}
 
-		if err := request(u, getParams(s, addr)); err != nil {
+		if err := request(u, getParams(s, ip)); err != nil {
 			log.Printf("[%s@%s] %s\n", s.Account, s.ServerName, err)
 			continue
 		}
