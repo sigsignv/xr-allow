@@ -10,12 +10,22 @@ import (
 	flag "github.com/spf13/pflag"
 )
 
+var (
+	VERSION = "0.2.0-dev"
+)
+
 func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: xr-allow [options...] 192.0.2.0\n")
 		flag.PrintDefaults()
 	}
+	version := flag.BoolP("version", "V", false, "Show version")
 	flag.Parse()
+
+	if *version {
+		fmt.Println(VERSION)
+		os.Exit(0)
+	}
 
 	addr, err := netip.ParseAddr(flag.Arg(0))
 	if err != nil {
