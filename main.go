@@ -19,6 +19,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Usage: xr-allow [options...] 192.0.2.0\n")
 		flag.PrintDefaults()
 	}
+	config := flag.StringP("config", "c", "./config.toml", "Specify config file path")
 	help := flag.BoolP("help", "h", false, "Show help")
 	version := flag.BoolP("version", "v", false, "Show version")
 	flag.Parse()
@@ -47,12 +48,12 @@ func main() {
 		log.Fatalf("IPv4 address required: %s", ip.String())
 	}
 
-	config, err := loadConfig("./conf.toml")
+	c, err := loadConfig(*config)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for i, s := range config.Servers {
+	for i, s := range c.Servers {
 		// 1 req/sec
 		if i != 0 {
 			time.Sleep(1000 * time.Millisecond)
