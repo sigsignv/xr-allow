@@ -1,4 +1,4 @@
-FROM golang:1.22-bookworm AS base
+FROM golang:1.23-bookworm AS base
 
 FROM base AS build
 
