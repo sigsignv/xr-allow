@@ -1,16 +1,14 @@
-FROM golang:1.23-bookworm AS base
-
-FROM base AS build
+FROM golang:1.24-bookworm AS builder
 
 RUN go install golang.org/x/tools/gopls@latest
 RUN go install github.com/cweill/gotests/gotests@v1.6.0
-RUN go install github.com/fatih/gomodifytags@v1.16.0
-RUN go install github.com/josharian/impl@v1.1.0
+RUN go install github.com/fatih/gomodifytags@v1.17.0
+RUN go install github.com/josharian/impl@v1.4.0
 RUN go install github.com/haya14busa/goplay/cmd/goplay@v1.0.0
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN go install honnef.co/go/tools/cmd/staticcheck@latest
 
-FROM base AS final
+FROM golang:1.24-bookworm AS dev
 
 ARG USERNAME=vscode
 ARG USER_UID=1000
@@ -26,19 +24,16 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
         bash-completion \
-        bind9-dnsutils \
+        dnsutils \
         less \
-        publicsuffix \
         sudo \
-        vim-nox \
+        vim \
         whiptail \
         zip
 
-RUN chown -R ${USER_UID}:${USER_GID} /go
-
-COPY --from=build --chown=${USER_UID}:${USER_GID} /go/bin /go/bin
+COPY --from=builder --chown=${USER_UID}:${USER_GID} /go/bin /go/bin
 
 RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user \
  && chmod 440 /etc/sudoers.d/user
