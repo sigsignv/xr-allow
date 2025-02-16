@@ -1,6 +1,4 @@
-FROM golang:1.24-bookworm AS base
-
-FROM base AS build
+FROM golang:1.24-bookworm AS builder
 
 RUN go install golang.org/x/tools/gopls@latest
 RUN go install github.com/cweill/gotests/gotests@v1.6.0
@@ -10,7 +8,7 @@ RUN go install github.com/haya14busa/goplay/cmd/goplay@v1.0.0
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN go install honnef.co/go/tools/cmd/staticcheck@latest
 
-FROM base AS final
+FROM golang:1.24-bookworm AS dev
 
 ARG USERNAME=vscode
 ARG USER_UID=1000
@@ -35,7 +33,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         whiptail \
         zip
 
-COPY --from=build --chown=${USER_UID}:${USER_GID} /go/bin /go/bin
+COPY --from=builder --chown=${USER_UID}:${USER_GID} /go/bin /go/bin
 
 RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user \
  && chmod 440 /etc/sudoers.d/user
