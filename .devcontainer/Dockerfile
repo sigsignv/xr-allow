@@ -35,8 +35,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         whiptail \
         zip
 
-RUN chown -R ${USER_UID}:${USER_GID} /go
-
 COPY --from=build --chown=${USER_UID}:${USER_GID} /go/bin /go/bin
 
 RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user \
