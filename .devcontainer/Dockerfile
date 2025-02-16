@@ -26,13 +26,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
         bash-completion \
-        bind9-dnsutils \
+        dnsutils \
         less \
-        publicsuffix \
         sudo \
-        vim-nox \
+        vim \
         whiptail \
         zip
 
