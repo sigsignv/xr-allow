@@ -29,7 +29,7 @@ darwin-arm64:
 	@ GOOS=darwin GOARCH=arm64 go build -ldflags=$(LD_FLAGS) -o $(APP).$@
 
 windows-amd64:
-	@ GOOS=windows GOARCH=amd64 go build -ldflags=$(LD_FLAGS) -o $(APP).$@.exe
+	@ GOOS=windows GOARCH=amd64 go build -ldflags=$(LD_FLAGS) -o $(APP).exe
 
 build: linux-amd64 linux-arm64 darwin-amd64 darwin-arm64 windows-amd64
 
