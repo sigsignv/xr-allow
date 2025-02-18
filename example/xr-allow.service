@@ -1,0 +1,9 @@
+[Unit]
+Description=Update SSH login IP addresses for XREA hosting servers
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=daemon
+ExecStart=/usr/local/bin/xr-allow -c /etc/xr-allow.toml ###YOUR_IP_ADDRESS###
