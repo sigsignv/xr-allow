@@ -1,0 +1,10 @@
+[Unit]
+Description=Update SSH login IP addresses for XREA hosting servers every week
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=timers.target
